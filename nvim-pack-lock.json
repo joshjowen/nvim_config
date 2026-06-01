@@ -37,7 +37,7 @@
       "src": "https://github.com/rktjmp/lush.nvim"
     },
     "neo-tree.nvim": {
-      "rev": "4597f1e0b928a78d5fe1b3d33d1a5141453ba839",
+      "rev": "b83de592f2a8bdd749a00668a8253878cd801f15",
       "src": "https://github.com/nvim-neo-tree/neo-tree.nvim"
     },
     "nui.nvim": {
