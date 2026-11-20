@@ -39,7 +39,6 @@ install_deps() {
 				rust \
 				cargo \
 				shellcheck \
-				shfmt \
 				gopls \
 				jq \
 				pipx \
@@ -58,6 +57,19 @@ install_deps() {
 		pipx install ruff
 		
 		pipx install cmakelang
+
+		# Make sure ~/go/bin (shfmt, yamlfmt, ...) is on PATH, idempotently
+		GO_PATH_LINE='case ":$PATH:" in *":$HOME/go/bin:"*) ;; *) export PATH="$HOME/go/bin:$PATH" ;; esac'
+		touch "${HOME}/.bashrc"
+		if ! grep -qxF "$GO_PATH_LINE" "${HOME}/.bashrc"; then
+			printf '\n# Go binaries\n%s\n' "$GO_PATH_LINE" >>"${HOME}/.bashrc"
+		fi
+		case ":$PATH:" in *":$HOME/go/bin:"*) ;; *) export PATH="$HOME/go/bin:$PATH" ;; esac
+
+		# shfmt isn't packaged on Fedora, so install it with go
+		if [ "$ID" = "fedora" ]; then
+			go install mvdan.cc/sh/v3/cmd/shfmt@latest
+		fi
 
 		# Install yamlfmt with go
 		go install github.com/google/yamlfmt/cmd/yamlfmt@latest
